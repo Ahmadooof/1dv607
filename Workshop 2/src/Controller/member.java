@@ -1,8 +1,6 @@
 package Controller;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -16,9 +14,8 @@ public class member {
 	BufferedReader reader;
 	Scanner input = new Scanner(System.in);
 
-	public member() throws FileNotFoundException {
+	public member(){
 		super();
-		reader= new BufferedReader(new FileReader("C:\\Users\\ahmad\\Desktop\\eclipse-workspace\\Workshop 2\\members.txt"));
 	}
 
 	//    ****************** Getters And Setters *************
@@ -51,7 +48,6 @@ public class member {
 
 	public void checkUserInput(console view, Id memberId) throws IOException {
 		if(input.nextInt() == 1) {
-			System.out.println("yes");
 			view.registerMember(memberId, this);
 		}
 	}

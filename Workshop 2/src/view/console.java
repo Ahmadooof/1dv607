@@ -16,7 +16,6 @@ public class console {
 	BufferedReader reader;
 	Scanner sc = new Scanner(System.in);
 	int input;
-	static int id;
 
 	public console() throws IOException {
 		writer = new BufferedWriter(new FileWriter("members.txt", true));
@@ -43,7 +42,7 @@ public class console {
 		System.out.println("Enter your personal Number:");
 		member.setPersonalNumber((sc.nextInt()));
 		writer.write(String.format("%-15s", member.getPersonalNumber()));
-		memberId.generateMemberId();
+		writer.write(String.format("%15s", memberId.generateMemberId()));
 		writer.close();
 	}
 
