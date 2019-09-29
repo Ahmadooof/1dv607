@@ -3,6 +3,7 @@ package view;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
@@ -23,14 +24,17 @@ public class console {
 			this.input = sc.nextInt();
 	}
 
-	public void registerMember() throws FileNotFoundException, UnsupportedEncodingException {
-//		System.out.println("Enter your name:");
-//		String t = sc.next();
-//		PrintWriter writer = new PrintWriter("members.txt", "UTF-8");
-//		writer.println(t);
-//		writer.println("The second line");
-//		writer.close();
+	public void registerMember() throws IOException {
 		
-//		BufferedWriter bf = new BufferedWriter("member.txt",new FileWriter("member.txt"))
+		BufferedWriter writer = new BufferedWriter(new FileWriter("members.txt", true));
+	  
+	System.out.println("Enter your name:");
+		String t = sc.next();
+		writer.write(t+"\n"+"hhfhdfh"); 
+		
+		writer.close();
+		
+		
+		
 	}
 }
