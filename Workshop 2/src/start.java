@@ -2,16 +2,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import model.member;
+import Controller.member;
+import model.Id;
 import view.console;
 
 public class start {
 
 	public static void main(String[] args) throws IOException {
-		console view = new console();
+		
+		view.console view = new console();
+		model.Id memberId = new Id();
+		Controller.member member = new member(); 
+		
 		view.printWelcome();
-		view.checkInput();
-		view.registerMember();
+		member.checkUserInput(view, memberId);
+		
 	}
 
 }

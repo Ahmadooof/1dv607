@@ -2,18 +2,18 @@ package view;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.lang.ModuleLayer.Controller;
 import java.util.Scanner;
+
+import Controller.member;
+import model.Id;
 
 public class console {
 	BufferedWriter writer;
 	BufferedReader reader;
-
 	Scanner sc = new Scanner(System.in);
 	int input;
 	static int id;
@@ -34,25 +34,28 @@ public class console {
 		this.input = sc.nextInt();
 	}
 
-	public void registerMember() throws IOException {
-		// check the head of table if exist, else print it.
+	public void registerMember(Id memberId, member member) throws IOException {
+		checkFile();
+		writer.write("\n");
+		System.out.println("Enter your name:");
+		member.setName(sc.next());
+		writer.write(String.format("%-16s", member.getName()));
+		System.out.println("Enter your personal Number:");
+		member.setPersonalNumber((sc.nextInt()));
+		writer.write(String.format("%-15s", member.getPersonalNumber()));
+		memberId.generateMemberId();
+		writer.close();
+	}
+
+	// check the head of table if exist, else print it.
+	private void checkFile() {
 		try {
 			if(reader.readLine() == null) {
 				printHeadOfTable();
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
-		}
-
-		writer.write("\n");
-		System.out.println("Enter your name:");
-		String name = sc.next();
-		writer.write(String.format("%-16s", name));
-		System.out.println("Enter your personal Number:");
-		String personalNumber = sc.next();
-		writer.write(String.format("%-15s", personalNumber));
-
-		writer.close();
+		}		
 	}
 
 	private void printHeadOfTable() throws IOException {
