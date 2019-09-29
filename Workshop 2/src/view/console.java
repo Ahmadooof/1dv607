@@ -12,6 +12,7 @@ public class console {
 
 	Scanner sc = new Scanner(System.in);
 	int input;
+	static int id;
 	
 	public void printWelcome() {
 		System.out.println("Hi and weclome to the club");
@@ -25,16 +26,13 @@ public class console {
 	}
 
 	public void registerMember() throws IOException {
-		
 		BufferedWriter writer = new BufferedWriter(new FileWriter("members.txt", true));
-	  
-	System.out.println("Enter your name:");
-		String t = sc.next();
-		writer.write(t+"\n"+"hhfhdfh"); 
-		
+		System.out.println("Enter your name:");
+		String name = sc.next();
+		writer.write(String.format("%-15s", name));
+		System.out.println("Enter your personal Number:");
+		String personalNumber = sc.next();
+		writer.write(String.format("%-15s", personalNumber));
 		writer.close();
-		
-		
-		
 	}
 }
