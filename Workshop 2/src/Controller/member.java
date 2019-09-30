@@ -60,7 +60,7 @@ public class member {
 			case 1:
 				member.registerMember(memberId,this);
 			case 2:
-				if(!retrieveMember.retrieveMemberByID(memberConsole.printRetrieveMember()))
+				if(!retrieveMember.retrieveMemberByID(retrieveMember.printRetrieveMember()))
 					retrieveMember.printUserNotFound();
 			}
 		}

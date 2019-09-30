@@ -11,10 +11,5 @@ public class MembershipConsole {
 				+ "\n4.Delete a Member");
 	}
 	
-	public String printRetrieveMember() {
-		Scanner input = new Scanner(System.in);
-		System.out.println("please enter member ID:");
-		return input.nextLine();
-	}
 
 }

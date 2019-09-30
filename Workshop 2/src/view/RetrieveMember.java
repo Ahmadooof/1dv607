@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class RetrieveMember {
 
@@ -14,10 +15,7 @@ public class RetrieveMember {
 	}
 
 	public boolean retrieveMemberByID(String userInput) throws IOException {
-		String line;
-		String ID;
-		String name;
-		String personalNumber;
+		String line, ID, name, personalNumber;
 		while(	(line = reader.readLine()) != null) {
 			if(line.length()==31)
 				continue;	
@@ -36,5 +34,11 @@ public class RetrieveMember {
 
 	public void printUserNotFound() {
 		System.out.println("User not found.");
+	}
+	
+	public String printRetrieveMember() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("please enter member ID:");
+		return input.nextLine();
 	}
 }
