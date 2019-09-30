@@ -59,6 +59,7 @@ public class member {
 			switch(input.nextInt()) {
 			case 1:
 				member.registerMember(memberId,this);
+				break;
 			case 2:
 				if(!retrieveMember.retrieveMemberByID(retrieveMember.printRetrieveMember()))
 					retrieveMember.printUserNotFound();
