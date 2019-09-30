@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import Controller.member;
+
 public class RetrieveMember {
 
 
@@ -14,28 +16,34 @@ public class RetrieveMember {
 		reader = new BufferedReader(new FileReader("C:\\Users\\ahmad\\Desktop\\eclipse-workspace\\Workshop 2\\members.txt"));
 	}
 
-	public boolean retrieveMemberByID(String userInput) throws IOException {
-		String line, ID, name, personalNumber;
+	public member retrieveMemberByID(String userInput) throws IOException {
+		String line;
+		member memberFound = new member();
 		while(	(line = reader.readLine()) != null) {
 			if(line.length()==31)
 				continue;	
-			name = (String) line.subSequence(0, 15);
-			personalNumber = (String) line.subSequence(16, 31);
-			ID = (String) line.subSequence(32, 46);
-			ID = ID.replaceAll("\\D+", "");
-			if(ID.equals(userInput)) {
-				System.out.println("user Info:\n"
-						+"Name: "+name+"\nPerosnalNumber: "+personalNumber+"\nID: "+ID);
-				return true;
+			memberFound.setName((String) line.subSequence(0, 15));
+			memberFound.setPersonalNumber((String) line.subSequence(16, 31));
+			memberFound.setId((String)line.subSequence(32, 46));
+			memberFound.setId(memberFound.getId().replaceAll("\\D+", ""));
+			if(memberFound.getId().equals(userInput)) {
+				return memberFound;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public void printUserNotFound() {
 		System.out.println("User not found.");
 	}
 	
+	public void printUserInfo(member memberInfo) {
+		System.out.println("user Info:\n"
+				+"Name: "+memberInfo.getName()
+				+"\nPerosnalNumber: "+memberInfo.getPersonalNumber()
+				+"\nID: "+memberInfo.getId());
+	}
+
 	public String printRetrieveMember() {
 		Scanner input = new Scanner(System.in);
 		System.out.println("please enter member ID:");

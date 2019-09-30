@@ -25,10 +25,10 @@ public class CreateMember {
 		checkFile();
 		writer.write("\n");
 		System.out.println("Enter your name:");
-		member.setName(sc.next());
+		member.setName(sc.nextLine());
 		writer.write(String.format("%-16s", member.getName()));
 		System.out.println("Enter your personal Number:");
-		member.setPersonalNumber((sc.nextInt()));
+		member.setPersonalNumber((sc.nextLine()));
 		writer.write(String.format("%-15s", member.getPersonalNumber()));
 		writer.write(String.format("%15s", memberId.generateMemberId()));
 		writer.close();

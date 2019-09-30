@@ -1,7 +1,5 @@
 package view;
 
-import java.util.Scanner;
-
 public class MembershipConsole {
 
 	public void printMemberChoises() {
