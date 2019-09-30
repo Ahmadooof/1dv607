@@ -3,19 +3,25 @@ package Controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Scanner;
-
 import model.Id;
-import view.console;
+import view.CreateMember;
+import view.GeneralConsole;
+import view.MembershipConsole;
+import view.RetrieveMember;
 
 public class member {
 	private String name;
 	private int personalNumber;
 	private int id;
+	private MembershipConsole memberConsole;
+	private CreateMember member;
 	BufferedReader reader;
 	Scanner input = new Scanner(System.in);
 
-	public member(){
+	public member() throws IOException{
 		super();
+		member = new CreateMember();
+		memberConsole = new MembershipConsole();
 	}
 
 	//    ****************** Getters And Setters *************
@@ -42,14 +48,23 @@ public class member {
 	}
 
 
-	public void wantsToRegister(console view) {
+	public void wantsToRegister(GeneralConsole view) {
 
 	}
 
-	public void checkUserInput(console view, Id memberId) throws IOException {
+	public void userChoice(Id memberId) throws IOException {
+		RetrieveMember retrieveMember = new RetrieveMember();
 		if(input.nextInt() == 1) {
-			view.registerMember(memberId, this);
+			memberConsole.printMemberChoises();
+			switch(input.nextInt()) {
+			case 1:
+				member.registerMember(memberId,this);
+			case 2:
+				if(!retrieveMember.retrieveMemberByID(memberConsole.printRetrieveMember()))
+					retrieveMember.printUserNotFound();
+			}
 		}
 	}
+
 
 }
