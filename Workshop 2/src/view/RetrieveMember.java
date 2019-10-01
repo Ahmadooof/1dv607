@@ -13,7 +13,7 @@ public class RetrieveMember {
 
 	BufferedReader reader;
 	public RetrieveMember() throws FileNotFoundException {
-		reader = new BufferedReader(new FileReader("C:\\Users\\ahmad\\Desktop\\eclipse-workspace\\Workshop 2\\members.txt"));
+		reader = new BufferedReader(new FileReader("C:\\Users\\serwa\\git\\1dv607\\Workshop 2\\members.txt"));
 	}
 
 	public member retrieveMemberByID(String userInput) throws IOException {

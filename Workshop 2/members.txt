@@ -1,9 +1,5 @@
-Members			Personal Numbers			ID
-asdf            12412                        1
-ahmad           1234124                      2
-aflsjdf         124124                       3
-ahmad           124124412                    4
-ahmad           144444                       5
-ahmad           44444                        6
-test                                         7
-test            324324                       8
+Members			Personal Numbers			ID			Boat Type			Boat Length
+asdasd          123                          1
+sdfsddsfdfs     123                          2
+sdfdfsdfs       123                          3          adsasd               1.0
+sdfdfsdfs       123123123                    4         adsfafs     2.13123123E8

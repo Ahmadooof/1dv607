@@ -18,7 +18,7 @@ public class CreateMember {
 
 	public CreateMember() throws IOException {
 		writer = new BufferedWriter(new FileWriter("members.txt", true));
-		reader= new BufferedReader(new FileReader("C:\\Users\\ahmad\\Desktop\\eclipse-workspace\\Workshop 2\\members.txt"));
+		reader= new BufferedReader(new FileReader("C:\\Users\\serwa\\git\\1dv607\\Workshop 2\\members.txt"));
 	}
 	
 	public void registerMember(Id memberId, member member) throws IOException {
@@ -45,7 +45,7 @@ public class CreateMember {
 		}		
 	}
 
-	private void printHeadOfTable() throws IOException {
-		writer.write("Members\t\t\tPersonal Numbers\t\t\tID");
+	public void printHeadOfTable() throws IOException {
+		writer.write("Members\t\t\tPersonal Numbers\t\t\tID\t\t\tBoat Type\t\t\tBoat Length");
 	}
 }

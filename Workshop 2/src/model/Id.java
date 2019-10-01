@@ -9,7 +9,7 @@ public class Id {
 
 	BufferedReader reader;
 	public Id() throws FileNotFoundException {
-		reader = new BufferedReader(new FileReader("C:\\Users\\ahmad\\Desktop\\eclipse-workspace\\Workshop 2\\members.txt"));
+		reader = new BufferedReader(new FileReader("C:\\Users\\serwa\\git\\1dv607\\Workshop 2\\members.txt"));
 	}
 
 	// generating unique ID for member by counting members
