@@ -1,5 +1,3 @@
 Members			Personal Numbers			ID			Boat Type			Boat Length
-asdasd          123                          1
-sdfsddsfdfs     123                          2
-sdfdfsdfs       123                          3          adsasd               1.0
-sdfdfsdfs       123123123                    4         adsfafs     2.13123123E8
+asdj12          123                          1
+             asd              123

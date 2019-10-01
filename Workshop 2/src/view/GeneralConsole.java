@@ -13,7 +13,7 @@ public class GeneralConsole {
 	
 	public GeneralConsole() throws IOException {
 		writer = new BufferedWriter(new FileWriter("members.txt", true));
-		reader= new BufferedReader(new FileReader("C:\\Users\\serwa\\git\\1dv607\\Workshop 2\\members.txt"));
+		reader= new BufferedReader(new FileReader("members.txt"));
 	}
 
 	public void printWelcome() {

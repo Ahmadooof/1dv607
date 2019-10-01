@@ -1,27 +1,28 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Id {
-
-	BufferedReader reader;
-	public Id() throws FileNotFoundException {
-		reader = new BufferedReader(new FileReader("C:\\Users\\serwa\\git\\1dv607\\Workshop 2\\members.txt"));
+public class Id extends ReadWriteFile{
+//	BufferedReader reader;
+	public Id() throws IOException {
+//		super();
+//		reader = new BufferedReader(new FileReader("members.txt"));
 	}
 
-	// generating unique ID for member by counting members
+	// generating unique ID for member by counting members.
 	public int generateMemberId() throws IOException {
-		int countMembers = 0;
-		while(reader.readLine() != null) {
+        Integer countMembers = 0;
+        while(readFromFile().readLine() != null) {
 			countMembers++;
 		}
-		if(countMembers == 0)
+		if(countMembers == 0) {
 			return 1;
+		}
 		else 
+		{
 			return countMembers;
+		}
 	}
-
 }

@@ -1,7 +1,6 @@
 import java.io.IOException;
 
-import Controller.member;
-import model.Id;
+import controller.ControlManager;
 import view.GeneralConsole;
 
 public class start {
@@ -9,11 +8,10 @@ public class start {
 	public static void main(String[] args) throws IOException {
 
 		view.GeneralConsole view = new GeneralConsole();
-		model.Id memberId = new Id();
-		Controller.member member = new member(); 
-		
+		controller.ControlManager control = new ControlManager(); 
+
 		view.printWelcome();
-		member.userChoice(memberId);
+		control.userChoice();
 	}
 
 }
