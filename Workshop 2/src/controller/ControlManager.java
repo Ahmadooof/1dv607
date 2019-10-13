@@ -1,30 +1,32 @@
-package controller;
-
-import java.io.IOException;
-import java.util.Scanner;
-
-public class ControlManager implements IOUser {
-
-	public void userChoice() throws IOException {
-		MemberControl memberControl = new MemberControl();
-		BoatControl boatControl = new BoatControl();
-		switch (userInput()) {
-		case "1":
-			memberControl.membershipIssue();
-			break;
-		case "2":
-			boatControl.boatIssue();
-			break;
-		case "3":
-			System.out.println("hi");
-			break;
-		}
-	}
-
-	@Override
-	public String userInput() {
-		Scanner userInput = new Scanner(System.in);
-		return userInput.nextLine();
-	}
-
-}
+//package controller;
+//
+//import model.IPersistence;
+//import model.MemberRegistry;
+//import view.IView;
+//
+//import java.io.IOException;
+//
+//public class ControlManager {
+//    private IView view;
+//    private IPersistence persistence;
+//    private MemberRegistry memberRegistry;
+//
+//
+//    public ControlManager(IView view, IPersistence persistence) {
+//        this.view = view;
+//        this.persistence = persistence;
+//        memberRegistry = new MemberRegistry(persistence);
+//    }
+//
+//    public void t() {
+//        memberRegistry.loadMembers();
+//    }
+//
+//    public void userChoice() throws IOException {
+//        MemberControl memberControl = new MemberControl();
+//        BoatControl boatControl = new BoatControl();
+//        switch (view.userInput()) {
+//
+//        }
+//    }
+//}
