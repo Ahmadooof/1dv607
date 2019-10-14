@@ -27,8 +27,8 @@ public class View implements IView {
     @Override
     public void printBoatMenu() {
         System.out.println("1.Register a new boat");
-        System.out.println("2.Delete a boat");
-        System.out.println("3.Change boat information");
+        System.out.println("2.Update boat information");
+        System.out.println("3.Delete a boat");
     }
 
     @Override
@@ -86,8 +86,10 @@ public class View implements IView {
     }
 
     public void userRequest() throws IOException, ParseException {
-        Member member = new Member(this.storage);
+        Member member = new Member();
         Boat boat = new Boat();
+        String memberId;
+        int boatId;
         switch (menuOption()) {
             case MEMBERSHIP_ISSUE:
                 printMembershipIssue();
@@ -98,14 +100,13 @@ public class View implements IView {
                         askForPersonalNumber();
                         member.setPersonalNumber(userInputNumber());
                         member.setId(this.storage.generateID(member.getPersonalNumber()));
-                        member.registerMember(member);
+                        this.storage.saveMember(member);
                         System.out.println("The Member has been registered");                 // toDo: put it in method.
                         break;
                     case READ_MEMBER:
-                        String id;
                         askForMemberId();
-                        if (this.storage.isMemberExist(id = userInputString())) {
-                            Member memberFound = this.storage.retrieveMemberById(id);
+                        if (this.storage.isMemberExist(memberId = userInputString())) {
+                            Member memberFound = this.storage.retrieveMemberById(memberId);
                             System.out.println(memberFound.toString());
                             break;
                         }
@@ -113,15 +114,15 @@ public class View implements IView {
                         break;
                     case UPDATE_MEMBER:
                         askForMemberId();
-                        if (this.storage.isMemberExist(id = userInputString())) {
-                            Member memberFound = this.storage.retrieveMemberById(id);
+                        if (this.storage.isMemberExist(memberId = userInputString())) {
+                            Member memberFound = this.storage.retrieveMemberById(memberId);
                             System.out.println("You are going to update this " + memberFound.toString());
                             System.out.println("Enter new name of the member:");              // toDo: put it in method.
                             memberFound.setName(userInputString());
                             System.out.println("Enter new personal number of the member:");   // toDo: put it in method.
                             memberFound.setPersonalNumber(userInputNumber());
                             memberFound.setId(this.storage.generateID(memberFound.getPersonalNumber()));
-                            this.storage.removeMemberById(id);
+                            this.storage.removeMemberById(memberId);
                             this.storage.updateMember(memberFound);
                             break;
                         }
@@ -129,8 +130,8 @@ public class View implements IView {
                         break;
                     case DELETE_MEMBER:
                         askForMemberId();
-                        if (this.storage.isMemberExist(id = userInputString())) {
-                            this.storage.removeMemberById(id);
+                        if (this.storage.isMemberExist(memberId = userInputString())) {
+                            this.storage.removeMemberById(memberId);
                             System.out.println("Member has been removed");
                             break;
                         }
@@ -143,10 +144,8 @@ public class View implements IView {
                 switch (boatOption()) {
                     case REGISTER_BOAT:
                         askForMemberId();
-                        String id;
-                        if (this.storage.isMemberExist(id = userInputString())) {
-                            Member memberFound = this.storage.retrieveMemberById(id);
-                            this.storage.removeMemberById(id);
+                        if (this.storage.isMemberExist(memberId = userInputString())) {
+                            Member memberFound = this.storage.retrieveMemberById(memberId);
                             System.out.println("please enter boat type:");
                             printBoatType();
                             switch (boatTypeOption()) {
@@ -157,7 +156,7 @@ public class View implements IView {
                                     boat.setType("Motorsailer");
                                     break;
                                 case CANOE:
-                                    boat.setType("canoe");
+                                    boat.setType("Canoe");
                                     break;
                                 case KAYAK:
                                     boat.setType("Kayak");
@@ -169,13 +168,58 @@ public class View implements IView {
                             }
                             System.out.println("please enter boat length");
                             boat.setLength(userInputNumber());
-                            boat.setId(this.storage.generateID(memberFound.getPersonalNumber()));
-                            this.storage.registerBoat(memberFound,boat);
+                            boat.setId(this.storage.generateIDForBoat(memberId));
+                            this.storage.removeMemberById(memberId);
+                            this.storage.registerBoat(memberFound, boat);
                             break;
                         }
-
                         System.out.println("Member is not found.");
                         break;
+                    case UPDATE_BOAT:
+                        askForMemberId();
+                        if (this.storage.isMemberExist(memberId = userInputString())) {
+                            Member memberFound = this.storage.retrieveMemberById(memberId);
+                            System.out.println("please enter boat ID:");
+                            if (this.storage.isBoatExist(boatId = userInputNumber())) {
+                                this.storage.removeBoatById(boatId);
+                                System.out.println("please enter boat type:");
+                                printBoatType();
+                                switch (boatTypeOption()) {
+                                    case SAILBOAT:
+                                        boat.setType("Sailboat");
+                                        break;
+                                    case MOTORSAILER:
+                                        boat.setType("Motorsailer");
+                                        break;
+                                    case CANOE:
+                                        boat.setType("Canoe");
+                                        break;
+                                    case KAYAK:
+                                        boat.setType("Kayak");
+                                        break;
+                                    case OTHER:
+                                        System.out.println("Please enter your boat type: ");
+                                        boat.setType(userInputString());
+                                        break;
+                                }
+                                System.out.println("please enter boat length");
+                                boat.setLength(userInputNumber());
+                                boat.setId(this.storage.generateIDForBoat(memberId));
+                                this.storage.updateBoat(boat,memberFound);
+                                break;
+                            }
+                            System.out.println("Boat is not found");
+                        }
+                        System.out.println("Member is not found");
+                    case DELETE_BOAT:
+                        askForMemberId();
+                        if (this.storage.isMemberExist(memberId = userInputString())) {
+                            System.out.println("please enter boat ID:");
+                            if (this.storage.isBoatExist(boatId = userInputNumber())) {
+                                this.storage.removeBoatById(boatId);
+                                break;
+                            }
+                        }
                 }
         }
     }

@@ -8,6 +8,8 @@ public interface IPersistence {
 
     String generateID(int personalNumber);
 
+    int generateIDForBoat(String id) throws IOException;
+
     MemberList loadMembers() throws IOException;
 
     boolean saveMember(Member newMember) throws IOException;
@@ -21,6 +23,12 @@ public interface IPersistence {
     boolean removeMemberById(String id) throws IOException;
 
     boolean registerBoat(Member memberFound,Boat newBoat) throws IOException;
+
+    boolean isBoatExist(int i) throws IOException;
+
+    void removeBoatById(int sarchBoatID) throws IOException;
+
+    void updateBoat(Boat boat,Member member) throws IOException;
 
 //    List<Member> getMemberList();
 
