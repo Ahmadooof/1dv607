@@ -5,6 +5,17 @@ public enum MenuOption {
     DELETE_MEMBER,
     UPDATE_MEMBER,
     READ_MEMBER,
+
+    REGISTER_BOAT,
+    DELETE_BOAT,
+    UPDATE_BOAT,
+
     MEMBERSHIP_ISSUE,
     BOAT_ISSUE,
+
+    SAILBOAT,
+    MOTORSAILER,
+    KAYAK,
+    CANOE,
+    OTHER,
 }

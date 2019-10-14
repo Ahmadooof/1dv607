@@ -20,6 +20,8 @@ public interface IPersistence {
 
     boolean removeMemberById(String id) throws IOException;
 
+    boolean registerBoat(Member memberFound,Boat newBoat) throws IOException;
+
 //    List<Member> getMemberList();
 
 //    void setMemberList(List<Member> memberList);

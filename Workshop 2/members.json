@@ -1,47 +1,17 @@
 {
   "memberList" : [ {
-    "name" : "ddd",
-    "personalNumber" : 444,
-    "id" : "29cf3edb-1528-48ba-ae04-e66ac1c41e23"
-  }, {
-    "name" : "ggg",
-    "personalNumber" : 55,
-    "id" : "17d8bae6-0ca7-4f16-a50b-d4b94585301a"
-  }, {
-    "name" : "kiki",
-    "personalNumber" : 323,
-    "id" : "7186374f-817e-48f9-9c2a-520e73144807"
-  }, {
-    "name" : "GOGOGo",
-    "personalNumber" : 2222,
-    "id" : "14c04fbd-5f5a-493f-923a-1b91e0382f82"
-  }, {
     "name" : "ahmad",
-    "personalNumber" : 333,
-    "id" : "ce0c8b14-9c75-48c7-bc5b-d9c4eb895c30"
-  }, {
-    "name" : "fff",
-    "personalNumber" : 343,
-    "id" : "fe"
-  }, {
-    "name" : "esf",
-    "personalNumber" : 442,
-    "id" : "553"
-  }, {
-    "name" : "ahmad",
-    "personalNumber" : 9923,
-    "id" : "::34"
+    "personalNumber" : 34321,
+    "id" : "45432",
+    "boatList" : [ ]
   }, {
     "name" : "omar",
-    "personalNumber" : 19943,
-    "id" : "2::54"
-  }, {
-    "name" : "ar",
-    "personalNumber" : 19329,
-    "id" : "2:43:"
-  }, {
-    "name" : "aeds",
-    "personalNumber" : 1993,
-    "id" : "2aa4"
+    "personalNumber" : 324,
+    "id" : "435",
+    "boatList" : [ {
+      "type" : "Sailboat",
+      "length" : 34,
+      "id" : "435"
+    } ]
   } ]
 }

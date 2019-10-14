@@ -1,19 +1,30 @@
 package model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Member {
     private String name;
     private int personalNumber;
     private String id;
 
-    IPersistence storage;
+    private IPersistence storage;
+    private List<Boat> boatList;
 
-    public Member() {
-    }
+    public Member() {}
 
     public Member(IPersistence storage) {
         this.storage = storage;
+        this.boatList = new ArrayList<Boat>();
+    }
+
+    public List<Boat> getBoatList() {
+        return boatList;
+    }
+
+    public void setBoatList(List<Boat> boatList) {
+        this.boatList = boatList;
     }
 
     public String getName() {

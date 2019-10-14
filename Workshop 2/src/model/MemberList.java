@@ -6,9 +6,7 @@ import java.util.List;
 public class MemberList {
     private List<Member> memberList = new ArrayList<Member>();
 
-    public MemberList(){
-
-    }
+    public MemberList(){}
 
     public MemberList(List<Member> memberList) {
         this.memberList = memberList;

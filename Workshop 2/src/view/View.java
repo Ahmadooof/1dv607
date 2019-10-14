@@ -1,5 +1,6 @@
 package view;
 
+import model.Boat;
 import model.IPersistence;
 import model.Member;
 import org.json.simple.parser.ParseException;
@@ -24,17 +25,10 @@ public class View implements IView {
     }
 
     @Override
-    public void printBoatIssue() {
-        System.out.println("Welcome to Register Boat Menu");
-        System.out.println("Press 1 For Existing Member");
-        System.out.println("Press 2 For New Member");
-    }
-
-    @Override
-    public void printExistingMember() {
-        System.out.println("Press 1 to Register a New Boat");
-        System.out.println("Press 2 to Delete a Boat");
-        System.out.println("Press 3 to Change Boat Information");
+    public void printBoatMenu() {
+        System.out.println("1.Register a new boat");
+        System.out.println("2.Delete a boat");
+        System.out.println("3.Change boat information");
     }
 
     @Override
@@ -46,7 +40,6 @@ public class View implements IView {
     public void AskForBoatLength() {
         System.out.println("Enter your Boat length in m");
     }
-
 
     @Override
     public void printMembershipIssue() {
@@ -84,8 +77,17 @@ public class View implements IView {
                 + "\nID: " + memberInfo.getId());
     }
 
+    public void printBoatType() {
+        System.out.println("1.SAILBOAT\n" +
+                "2.MOTORSAILER\n" +
+                "3.KAYAK\n" +
+                "4.CANOE\n" +
+                "5.OTHER");
+    }
+
     public void userRequest() throws IOException, ParseException {
         Member member = new Member(this.storage);
+        Boat boat = new Boat();
         switch (menuOption()) {
             case MEMBERSHIP_ISSUE:
                 printMembershipIssue();
@@ -137,7 +139,44 @@ public class View implements IView {
                 }
                 break;
             case BOAT_ISSUE:
-                printBoatIssue();
+                printBoatMenu();
+                switch (boatOption()) {
+                    case REGISTER_BOAT:
+                        askForMemberId();
+                        String id;
+                        if (this.storage.isMemberExist(id = userInputString())) {
+                            Member memberFound = this.storage.retrieveMemberById(id);
+                            this.storage.removeMemberById(id);
+                            System.out.println("please enter boat type:");
+                            printBoatType();
+                            switch (boatTypeOption()) {
+                                case SAILBOAT:
+                                    boat.setType("Sailboat");
+                                    break;
+                                case MOTORSAILER:
+                                    boat.setType("Motorsailer");
+                                    break;
+                                case CANOE:
+                                    boat.setType("canoe");
+                                    break;
+                                case KAYAK:
+                                    boat.setType("Kayak");
+                                    break;
+                                case OTHER:
+                                    System.out.println("Please enter your boat type: ");
+                                    boat.setType(userInputString());
+                                    break;
+                            }
+                            System.out.println("please enter boat length");
+                            boat.setLength(userInputNumber());
+                            boat.setId(this.storage.generateID(memberFound.getPersonalNumber()));
+                            this.storage.registerBoat(memberFound,boat);
+                            break;
+                        }
+
+                        System.out.println("Member is not found.");
+                        break;
+                }
         }
     }
 
@@ -148,6 +187,22 @@ public class View implements IView {
 
     public int userInputNumber() {
         return new Scanner(System.in).nextInt();
+    }
+
+    public MenuOption boatTypeOption() {
+        switch (userInputNumber()) {
+            case 1:
+                return MenuOption.SAILBOAT;
+            case 2:
+                return MenuOption.MOTORSAILER;
+            case 3:
+                return MenuOption.KAYAK;
+            case 4:
+                return MenuOption.CANOE;
+            case 5:
+                return MenuOption.OTHER;
+        }
+        return null;
     }
 
     @Override
@@ -177,6 +232,18 @@ public class View implements IView {
                 System.out.println("Please press a number!");
                 return null;
         }
+    }
+
+    public MenuOption boatOption() {
+        switch (userInputNumber()) {
+            case 1:
+                return MenuOption.REGISTER_BOAT;
+            case 2:
+                return MenuOption.UPDATE_BOAT;
+            case 3:
+                return MenuOption.DELETE_BOAT;
+        }
+        return null;
     }
 
 }

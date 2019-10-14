@@ -14,7 +14,6 @@ public class Persistence implements IPersistence {
     ObjectMapper om;
     File file;
 
-
     public Persistence() throws IOException {
         file = new File("members.json");
         memberList = new ArrayList<Member>();
@@ -22,13 +21,6 @@ public class Persistence implements IPersistence {
         om = new ObjectMapper();
     }
 
-    /**
-     * this method takes personalNumber as uniqueID and
-     * increasing each character by 1 which still unique.
-     *
-     * @param personalNumber
-     * @return
-     */
     @Override
     public String generateID(int personalNumber) {
         String numberString = Integer.toString(personalNumber);
@@ -79,9 +71,12 @@ public class Persistence implements IPersistence {
 
     public boolean removeMemberById(String id) throws IOException {
         memberListObject = loadMembers();
-        for (int i = 0; i < memberListObject.getMemberList().size(); i++) {
-            if (memberListObject.getMemberList().get(i).getId().equals(id)) {
-                memberListObject.getMemberList().remove(i);
+        ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
+        for (int i = 0; i < currentMembers.size(); i++) {
+            if (currentMembers.get(i).getId().equals(id)) {
+                currentMembers.remove(i);
+                memberListObject.setMemberList(currentMembers);
+                om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
                 return true;
             }
         }
@@ -103,6 +98,14 @@ public class Persistence implements IPersistence {
     @Override
     public boolean updateMember(Member updateMember) throws IOException {
         memberListObject.getMemberList().add(updateMember);
+        om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
+        return true;
+    }
+
+    public boolean registerBoat(Member memberFound,Boat newBoat) throws IOException {
+        memberFound.getBoatList().add(newBoat);
+        memberListObject.setMemberList(loadMembers().getMemberList());
+        memberListObject.getMemberList().add(memberFound);
         om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
         return true;
     }
