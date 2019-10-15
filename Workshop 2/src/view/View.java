@@ -3,7 +3,6 @@ package view;
 import model.Boat;
 import model.IPersistence;
 import model.Member;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -36,7 +35,7 @@ public class View implements IView {
 
     @Override
     public void AskForBoatType() {
-        System.out.println("Enter Your Boat Type");
+        System.out.println("Please enter boat type");
     }
 
     @Override
@@ -88,7 +87,11 @@ public class View implements IView {
                 "5.OTHER");
     }
 
-    public void userRequest() throws IOException, ParseException {
+    public void printFileNotFound() {
+        System.out.println("File is not found, please register a member to generate the file.");
+    }
+
+    public void userRequest() throws IOException {
         Member member = new Member();
         Boat boat = new Boat();
         String memberId;
@@ -114,7 +117,7 @@ public class View implements IView {
                                 break;
                             }
                         } catch (Exception e) {
-                            System.out.println("File is not found, please register a member to generate the file.");
+                            printFileNotFound();
                         }
                         System.out.println("Member is not found.");
                         break;
@@ -134,7 +137,7 @@ public class View implements IView {
                                 break;
                             }
                         } catch (Exception e) {
-                            System.out.println("File is not found, please register a member to generate the file.");
+                            printFileNotFound();
                         }
                         System.out.println("Member is not found.");
                         break;
@@ -147,7 +150,7 @@ public class View implements IView {
                                 break;
                             }
                         } catch (Exception e) {
-                            System.out.println("File is not found, please register a member to generate the file.");
+                            printFileNotFound();
                         }
                         System.out.println("Member is not found.");
                         break;
@@ -161,7 +164,7 @@ public class View implements IView {
                         try {
                             if (this.storage.isMemberExist(memberId = userInputString())) {
                                 Member memberFound = this.storage.retrieveMemberById(memberId);
-                                System.out.println("please enter boat type:");
+                                AskForBoatType();
                                 printBoatType();
                                 switch (boatTypeOption()) {
                                     case SAILBOAT:
@@ -189,7 +192,7 @@ public class View implements IView {
                                 break;
                             }
                         } catch (Exception e) {
-                            System.out.println("File is not found, please register a member to generate the file.");
+                            printFileNotFound();
                         }
                         System.out.println("Member is not found.");
                         break;
@@ -217,7 +220,7 @@ public class View implements IView {
                                             boat.setType("Kayak");
                                             break;
                                         case OTHER:
-                                            System.out.println("Please enter your boat type: ");
+                                            AskForBoatType();
                                             boat.setType(userInputString());
                                             break;
                                     }
@@ -230,14 +233,14 @@ public class View implements IView {
                                 System.out.println("Boat is not found");
                             }
                         } catch (Exception e) {
-                            System.out.println("File is not found, please register a member to generate the file.");
+                            printFileNotFound();
                         }
                         System.out.println("Member is not found");
                         break;
                     case DELETE_BOAT:
                         askForMemberId();
                         try {
-                            if (this.storage.isMemberExist(memberId = userInputString())) {
+                            if (this.storage.isMemberExist(userInputString())) {
                                 System.out.println("please enter boat ID:");
                                 if (this.storage.isBoatExist(boatId = userInputNumber())) {
                                     this.storage.removeBoatById(boatId);
@@ -245,7 +248,7 @@ public class View implements IView {
                                 }
                             }
                         } catch (Exception e) {
-                            System.out.println("File is not found, please register a member to generate the file.");
+                            printFileNotFound();
                         }
                 }
                 break;
@@ -313,11 +316,13 @@ public class View implements IView {
                     }
                 }
                 break;
+            case Exit:
+                System.out.println("Thanks for using our service");
+                System.exit(0);
         }
         System.out.println("Everything is updated.");
         System.out.println("Press any key to restart, Number 5 To Exit.");
     }
-    //  “Compact List”; name, member id and number of boats
 
     @Override
     public String userInputString() {
@@ -330,66 +335,104 @@ public class View implements IView {
     }
 
     public MenuOption boatTypeOption() {
-        switch (userInputNumber()) {
-            case 1:
-                return MenuOption.SAILBOAT;
-            case 2:
-                return MenuOption.MOTORSAILER;
-            case 3:
-                return MenuOption.KAYAK;
-            case 4:
-                return MenuOption.CANOE;
-            case 5:
-                return MenuOption.OTHER;
+        try {
+            int checkInput;
+            switch (checkInput = userInputNumber()) {
+                case 1:
+                    return MenuOption.SAILBOAT;
+                case 2:
+                    return MenuOption.MOTORSAILER;
+                case 3:
+                    return MenuOption.KAYAK;
+                case 4:
+                    return MenuOption.CANOE;
+                case 5:
+                    return MenuOption.OTHER;
+            }
+            if (checkInput < 1 || checkInput > 5) {
+                System.out.println("please choose a boat by press number from 1 to 5");
+                return boatTypeOption();
+            }
+        } catch (Exception e) {
+            System.out.println("please press a number not characters");
+            return boatTypeOption();
         }
-        return null;
+        return boatTypeOption();
     }
 
     @Override
     public MenuOption menuOption() {
-        switch (userInputNumber()) {
-            case 1:
-                return MenuOption.MEMBERSHIP_ISSUE;
-            case 2:
-                return MenuOption.BOAT_ISSUE;
-            case 3:
-                return MenuOption.COMPACT_LIST;
-            case 4:
-                return MenuOption.VERBOSE_LIST;
-            case 5:
-                return MenuOption.Exit;
-            default:
-                return null;
+        try {
+            int checkInput;
+            switch (checkInput = userInputNumber()) {
+                case 1:
+                    return MenuOption.MEMBERSHIP_ISSUE;
+                case 2:
+                    return MenuOption.BOAT_ISSUE;
+                case 3:
+                    return MenuOption.COMPACT_LIST;
+                case 4:
+                    return MenuOption.VERBOSE_LIST;
+                case 5:
+                    return MenuOption.Exit;
+            }
+            if (checkInput < 1 || checkInput > 5) {
+                System.out.println("please choose a number from 1 to 5");
+                return menuOption();
+            }
+        } catch (Exception e) {
+            System.out.println("please press a number");
+            return menuOption();
         }
+        return menuOption();
     }
+
 
     @Override
     public MenuOption membershipOption() {
-        switch (userInputNumber()) {
-            case 1:
-                return MenuOption.REGISTER_MEMBER;
-            case 2:
-                return MenuOption.READ_MEMBER;
-            case 3:
-                return MenuOption.UPDATE_MEMBER;
-            case 4:
-                return MenuOption.DELETE_MEMBER;
-            default:
-                System.out.println("Please press a number!");
-                return null;
+        try {
+            int checkInput;
+            switch (checkInput = userInputNumber()) {
+                case 1:
+                    return MenuOption.REGISTER_MEMBER;
+                case 2:
+                    return MenuOption.READ_MEMBER;
+                case 3:
+                    return MenuOption.UPDATE_MEMBER;
+                case 4:
+                    return MenuOption.DELETE_MEMBER;
+            }
+            if (checkInput < 1 || checkInput > 4) {
+                System.out.println("please choose an option by press number from 1 to 4");
+                return membershipOption();
+            }
+        } catch (Exception e) {
+            System.out.println("please press a number not character.");
+            return membershipOption();
         }
+        return membershipOption();
     }
 
     public MenuOption boatOption() {
-        switch (userInputNumber()) {
-            case 1:
-                return MenuOption.REGISTER_BOAT;
-            case 2:
-                return MenuOption.UPDATE_BOAT;
-            case 3:
-                return MenuOption.DELETE_BOAT;
+        try {
+            int checkInput;
+            switch (checkInput = userInputNumber()) {
+                case 1:
+                    return MenuOption.REGISTER_BOAT;
+                case 2:
+                    return MenuOption.UPDATE_BOAT;
+                case 3:
+                    return MenuOption.DELETE_BOAT;
+            }
+            if (checkInput < 1 || checkInput > 3) {
+                System.out.println("please choose an option by press number from 1 to 3");
+                return boatOption();
+            }
+        } catch (Exception e) {
+            System.out.println("please press number not character");
+            boatOption();
         }
-        return null;
+        return boatOption();
     }
 
 }

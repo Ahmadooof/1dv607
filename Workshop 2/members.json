@@ -4,9 +4,14 @@
     "personalNumber" : 34,
     "id" : "45",
     "boatList" : [ {
-      "type" : "Canoe",
-      "length" : 2,
+      "type" : "Kayak",
+      "length" : 45,
       "id" : 1
     } ]
+  }, {
+    "name" : "ooo",
+    "personalNumber" : 4554,
+    "id" : "5665",
+    "boatList" : [ ]
   } ]
 }
