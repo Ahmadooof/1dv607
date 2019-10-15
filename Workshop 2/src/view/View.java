@@ -340,8 +340,7 @@ public class View implements IView {
 
     public MenuOption boatTypeOption() {
         try {
-            int checkInput;
-            switch (checkInput = userInputNumber()) {
+            switch (userInputNumber()) {
                 case 1:
                     return MenuOption.SAILBOAT;
                 case 2:
@@ -352,23 +351,20 @@ public class View implements IView {
                     return MenuOption.CANOE;
                 case 5:
                     return MenuOption.OTHER;
-            }
-            if (checkInput < 1 || checkInput > 5) {
-                System.out.println("please choose a boat by press number from 1 to 5");
-                return boatTypeOption();
+                default:
+                    System.out.println("please choose a boat by press number from 1 to 5");
+                    return boatTypeOption();
             }
         } catch (Exception e) {
             System.out.println("please press a number not characters");
             return boatTypeOption();
         }
-        return boatTypeOption();
     }
 
     @Override
     public MenuOption menuOption() {
         try {
-            int checkInput;
-            switch (checkInput = userInputNumber()) {
+            switch (userInputNumber()) {
                 case 1:
                     return MenuOption.MEMBERSHIP_ISSUE;
                 case 2:
@@ -379,24 +375,21 @@ public class View implements IView {
                     return MenuOption.VERBOSE_LIST;
                 case 5:
                     return MenuOption.Exit;
-            }
-            if (checkInput < 1 || checkInput > 5) {
-                System.out.println("please choose a number from 1 to 5");
-                return menuOption();
+                default:
+                    System.out.println("please choose a number from 1 to 5");
+                    return menuOption();
             }
         } catch (Exception e) {
             System.out.println("please press a number");
             return menuOption();
         }
-        return menuOption();
     }
 
 
     @Override
     public MenuOption membershipOption() {
         try {
-            int checkInput;
-            switch (checkInput = userInputNumber()) {
+            switch (userInputNumber()) {
                 case 1:
                     return MenuOption.REGISTER_MEMBER;
                 case 2:
@@ -405,38 +398,33 @@ public class View implements IView {
                     return MenuOption.UPDATE_MEMBER;
                 case 4:
                     return MenuOption.DELETE_MEMBER;
-            }
-            if (checkInput < 1 || checkInput > 4) {
-                System.out.println("please choose an option by press number from 1 to 4");
-                return membershipOption();
+                default:
+                    System.out.println("please choose an option by press number from 1 to 4");
+                    return membershipOption();
             }
         } catch (Exception e) {
             System.out.println("please press a number not character.");
             return membershipOption();
         }
-        return membershipOption();
     }
 
     public MenuOption boatOption() {
         try {
-            int checkInput;
-            switch (checkInput = userInputNumber()) {
+            switch (userInputNumber()) {
                 case 1:
                     return MenuOption.REGISTER_BOAT;
                 case 2:
                     return MenuOption.UPDATE_BOAT;
                 case 3:
                     return MenuOption.DELETE_BOAT;
-            }
-            if (checkInput < 1 || checkInput > 3) {
-                System.out.println("please choose an option by press number from 1 to 3");
-                return boatOption();
+                default:
+                    System.out.println("please choose an option by press number from 1 to 3");
+                    return boatOption();
             }
         } catch (Exception e) {
             System.out.println("please press number not character");
-            boatOption();
+            return boatOption();
         }
-        return boatOption();
     }
 
 }

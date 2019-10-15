@@ -1,6 +1,5 @@
 package model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,13 +46,4 @@ public class Member {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Member{" +
-                "name='" + name + '\'' +
-                ", personalNumber=" + personalNumber +
-                ", id='" + id + '\'' +
-                ", boatList=" + boatList +
-                '}';
-    }
 }

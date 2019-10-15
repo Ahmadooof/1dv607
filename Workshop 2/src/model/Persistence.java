@@ -43,8 +43,7 @@ public class Persistence implements IPersistence {
             }
             uniqueId.append(c);
         }
-        String unique = uniqueId.toString();
-        return unique;
+        return uniqueId.toString();
     }
 
 
@@ -195,16 +194,16 @@ public class Persistence implements IPersistence {
     }
 
     /**
-     * @param sarchBoatID
+     * @param searchBoatID
      * @throws IOException
      */
     @Override
-    public void removeBoatById(int sarchBoatID) throws IOException {
+    public void removeBoatById(int searchBoatID) throws IOException {
         memberListObject = loadMembers();
         ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
         for (int i = 0; i < currentMembers.size(); i++) {
             for (int j = 0; j < currentMembers.get(i).getBoatList().size(); j++) {
-                if (currentMembers.get(i).getBoatList().get(j).getId() == sarchBoatID) {
+                if (currentMembers.get(i).getBoatList().get(j).getId() == searchBoatID) {
                     currentMembers.get(i).getBoatList().remove(j);
                     memberListObject.setMemberList(currentMembers);
                     om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
