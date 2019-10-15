@@ -6,6 +6,11 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 public interface IView {
+
+    String userInputString();
+
+    int userInputNumber();
+
     void printWelcome();
 
     void printBoatMenu();

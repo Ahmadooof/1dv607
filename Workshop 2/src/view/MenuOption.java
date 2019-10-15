@@ -18,4 +18,9 @@ public enum MenuOption {
     KAYAK,
     CANOE,
     OTHER,
+
+    COMPACT_LIST,
+    VERBOSE_LIST,
+
+    Exit,
 }

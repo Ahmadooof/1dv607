@@ -30,7 +30,4 @@ public interface IPersistence {
 
     void updateBoat(Boat boat,Member member) throws IOException;
 
-//    List<Member> getMemberList();
-
-//    void setMemberList(List<Member> memberList);
 }

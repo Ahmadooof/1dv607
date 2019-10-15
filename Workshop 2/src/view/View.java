@@ -6,6 +6,7 @@ import model.Member;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class View implements IView {
@@ -19,9 +20,11 @@ public class View implements IView {
     @Override
     public void printWelcome() {
         System.out.println("Hi and welcome to the club");
-        System.out.println("1.Membership.");
-        System.out.println("2.register boat.");
-        System.out.println("3.view compact list");
+        System.out.println("1.Membership issue.");
+        System.out.println("2.Boat issue.");
+        System.out.println("3.View compact list");
+        System.out.println("4.View verbose list");
+        System.out.println("5.Exit");
     }
 
     @Override
@@ -101,39 +104,50 @@ public class View implements IView {
                         member.setPersonalNumber(userInputNumber());
                         member.setId(this.storage.generateID(member.getPersonalNumber()));
                         this.storage.saveMember(member);
-                        System.out.println("The Member has been registered");                 // toDo: put it in method.
                         break;
                     case READ_MEMBER:
                         askForMemberId();
-                        if (this.storage.isMemberExist(memberId = userInputString())) {
-                            Member memberFound = this.storage.retrieveMemberById(memberId);
-                            System.out.println(memberFound.toString());
-                            break;
+                        try {
+                            if (this.storage.isMemberExist(memberId = userInputString())) {
+                                Member memberFound = this.storage.retrieveMemberById(memberId);
+                                System.out.println(memberFound.toString());
+                                break;
+                            }
+                        } catch (Exception e) {
+                            System.out.println("File is not found, please register a member to generate the file.");
                         }
-                        System.out.println("Member is not found.");                           // toDo: put it in method.
+                        System.out.println("Member is not found.");
                         break;
                     case UPDATE_MEMBER:
                         askForMemberId();
-                        if (this.storage.isMemberExist(memberId = userInputString())) {
-                            Member memberFound = this.storage.retrieveMemberById(memberId);
-                            System.out.println("You are going to update this " + memberFound.toString());
-                            System.out.println("Enter new name of the member:");              // toDo: put it in method.
-                            memberFound.setName(userInputString());
-                            System.out.println("Enter new personal number of the member:");   // toDo: put it in method.
-                            memberFound.setPersonalNumber(userInputNumber());
-                            memberFound.setId(this.storage.generateID(memberFound.getPersonalNumber()));
-                            this.storage.removeMemberById(memberId);
-                            this.storage.updateMember(memberFound);
-                            break;
+                        try {
+                            if (this.storage.isMemberExist(memberId = userInputString())) {
+                                Member memberFound = this.storage.retrieveMemberById(memberId);
+                                System.out.println("You are going to update this " + memberFound.toString());
+                                System.out.println("Enter new name of the member:");
+                                memberFound.setName(userInputString());
+                                System.out.println("Enter new personal number of the member:");
+                                memberFound.setPersonalNumber(userInputNumber());
+                                memberFound.setId(this.storage.generateID(memberFound.getPersonalNumber()));
+                                this.storage.removeMemberById(memberId);
+                                this.storage.updateMember(memberFound);
+                                break;
+                            }
+                        } catch (Exception e) {
+                            System.out.println("File is not found, please register a member to generate the file.");
                         }
                         System.out.println("Member is not found.");
                         break;
                     case DELETE_MEMBER:
                         askForMemberId();
-                        if (this.storage.isMemberExist(memberId = userInputString())) {
-                            this.storage.removeMemberById(memberId);
-                            System.out.println("Member has been removed");
-                            break;
+                        try {
+                            if (this.storage.isMemberExist(memberId = userInputString())) {
+                                this.storage.removeMemberById(memberId);
+                                System.out.println("Member has been removed");
+                                break;
+                            }
+                        } catch (Exception e) {
+                            System.out.println("File is not found, please register a member to generate the file.");
                         }
                         System.out.println("Member is not found.");
                         break;
@@ -144,44 +158,9 @@ public class View implements IView {
                 switch (boatOption()) {
                     case REGISTER_BOAT:
                         askForMemberId();
-                        if (this.storage.isMemberExist(memberId = userInputString())) {
-                            Member memberFound = this.storage.retrieveMemberById(memberId);
-                            System.out.println("please enter boat type:");
-                            printBoatType();
-                            switch (boatTypeOption()) {
-                                case SAILBOAT:
-                                    boat.setType("Sailboat");
-                                    break;
-                                case MOTORSAILER:
-                                    boat.setType("Motorsailer");
-                                    break;
-                                case CANOE:
-                                    boat.setType("Canoe");
-                                    break;
-                                case KAYAK:
-                                    boat.setType("Kayak");
-                                    break;
-                                case OTHER:
-                                    System.out.println("Please enter your boat type: ");
-                                    boat.setType(userInputString());
-                                    break;
-                            }
-                            System.out.println("please enter boat length");
-                            boat.setLength(userInputNumber());
-                            boat.setId(this.storage.generateIDForBoat(memberId));
-                            this.storage.removeMemberById(memberId);
-                            this.storage.registerBoat(memberFound, boat);
-                            break;
-                        }
-                        System.out.println("Member is not found.");
-                        break;
-                    case UPDATE_BOAT:
-                        askForMemberId();
-                        if (this.storage.isMemberExist(memberId = userInputString())) {
-                            Member memberFound = this.storage.retrieveMemberById(memberId);
-                            System.out.println("please enter boat ID:");
-                            if (this.storage.isBoatExist(boatId = userInputNumber())) {
-                                this.storage.removeBoatById(boatId);
+                        try {
+                            if (this.storage.isMemberExist(memberId = userInputString())) {
+                                Member memberFound = this.storage.retrieveMemberById(memberId);
                                 System.out.println("please enter boat type:");
                                 printBoatType();
                                 switch (boatTypeOption()) {
@@ -205,30 +184,147 @@ public class View implements IView {
                                 System.out.println("please enter boat length");
                                 boat.setLength(userInputNumber());
                                 boat.setId(this.storage.generateIDForBoat(memberId));
-                                this.storage.updateBoat(boat,memberFound);
+                                this.storage.removeMemberById(memberId);
+                                this.storage.registerBoat(memberFound, boat);
                                 break;
                             }
-                            System.out.println("Boat is not found");
+                        } catch (Exception e) {
+                            System.out.println("File is not found, please register a member to generate the file.");
+                        }
+                        System.out.println("Member is not found.");
+                        break;
+                    case UPDATE_BOAT:
+                        askForMemberId();
+                        try {
+                            if (this.storage.isMemberExist(memberId = userInputString())) {
+                                Member memberFound = this.storage.retrieveMemberById(memberId);
+                                System.out.println("please enter boat ID:");
+                                if (this.storage.isBoatExist(boatId = userInputNumber())) {
+                                    this.storage.removeBoatById(boatId);
+                                    System.out.println("please enter boat type:");
+                                    printBoatType();
+                                    switch (boatTypeOption()) {
+                                        case SAILBOAT:
+                                            boat.setType("Sailboat");
+                                            break;
+                                        case MOTORSAILER:
+                                            boat.setType("Motorsailer");
+                                            break;
+                                        case CANOE:
+                                            boat.setType("Canoe");
+                                            break;
+                                        case KAYAK:
+                                            boat.setType("Kayak");
+                                            break;
+                                        case OTHER:
+                                            System.out.println("Please enter your boat type: ");
+                                            boat.setType(userInputString());
+                                            break;
+                                    }
+                                    System.out.println("please enter boat length");
+                                    boat.setLength(userInputNumber());
+                                    boat.setId(this.storage.generateIDForBoat(memberId));
+                                    this.storage.updateBoat(boat, memberFound);
+                                    break;
+                                }
+                                System.out.println("Boat is not found");
+                            }
+                        } catch (Exception e) {
+                            System.out.println("File is not found, please register a member to generate the file.");
                         }
                         System.out.println("Member is not found");
+                        break;
                     case DELETE_BOAT:
                         askForMemberId();
-                        if (this.storage.isMemberExist(memberId = userInputString())) {
-                            System.out.println("please enter boat ID:");
-                            if (this.storage.isBoatExist(boatId = userInputNumber())) {
-                                this.storage.removeBoatById(boatId);
-                                break;
+                        try {
+                            if (this.storage.isMemberExist(memberId = userInputString())) {
+                                System.out.println("please enter boat ID:");
+                                if (this.storage.isBoatExist(boatId = userInputNumber())) {
+                                    this.storage.removeBoatById(boatId);
+                                    break;
+                                }
                             }
+                        } catch (Exception e) {
+                            System.out.println("File is not found, please register a member to generate the file.");
                         }
                 }
+                break;
+            case COMPACT_LIST:
+                try {
+                    this.storage.loadMembers().getMemberList();
+                } catch (Exception e) {
+                    System.out.println("File is not found, please register a member to generate the file.");
+                }
+                Iterator<Member> iter = this.storage.loadMembers().getMemberList().iterator();
+                System.out.println("File is not found, please register a member to generate the file.");
+
+                System.out.format("%-15s%-15s%-15s\n"
+                        , "Name", "MemberId", "Number of Boats");
+                while (iter.hasNext()) {
+                    member = iter.next();
+                    System.out.format("%-15s%-15s%-15s\n"
+                            , member.getName()
+                            , member.getId()
+                            , member.getBoatList().size());
+                }
+                break;
+            case VERBOSE_LIST:
+                try {
+                    this.storage.loadMembers().getMemberList();
+                } catch (Exception e) {
+                    System.out.println("File is not found, please register a member to generate the file.");
+                }
+                Iterator<Member> iterateMember = this.storage.loadMembers().getMemberList().iterator();
+                Iterator<Boat> iterateBoat;
+                System.out.format(
+                        "%20s%20s%20s%20s%20s%20s%20s\n"
+                        , "Name", "Personal Number", "Member ID", "Number of Boats"
+                        , "Boat Type", "Boat Length", "Boat ID");
+                while (iterateMember.hasNext()) {
+                    int countNumberBoats = 1;
+                    member = iterateMember.next();
+                    iterateBoat = member.getBoatList().iterator();
+                    System.out.format("%20s%20s%20s%20s"
+                            , member.getName()
+                            , member.getPersonalNumber()
+                            , member.getId()
+                            , member.getBoatList().size());
+                    if (!iterateBoat.hasNext()) {
+                        System.out.println();
+                        for (int i = 0; i < 140; i++)
+                            System.out.print("-");
+                        System.out.println();
+                    }
+                    while (iterateBoat.hasNext()) {
+                        boat = iterateBoat.next();
+                        if (countNumberBoats == 1) {
+                            System.out.format("%20s%20s%20s\n"
+                                    , boat.getType(), boat.getLength(), boat.getId());
+                            countNumberBoats++;
+                        } else {
+                            System.out.format("%100s%20s%20s\n"
+                                    , boat.getType(), boat.getLength(), boat.getId());
+                        }
+                        if (!iterateBoat.hasNext()) {
+                            for (int i = 0; i < 140; i++)
+                                System.out.print("-");
+                            System.out.println();
+                        }
+                    }
+                }
+                break;
         }
+        System.out.println("Everything is updated.");
+        System.out.println("Press any key to restart, Number 5 To Exit.");
     }
+    //  “Compact List”; name, member id and number of boats
 
-
+    @Override
     public String userInputString() {
         return new Scanner(System.in).nextLine();
     }
 
+    @Override
     public int userInputNumber() {
         return new Scanner(System.in).nextInt();
     }
@@ -256,6 +352,12 @@ public class View implements IView {
                 return MenuOption.MEMBERSHIP_ISSUE;
             case 2:
                 return MenuOption.BOAT_ISSUE;
+            case 3:
+                return MenuOption.COMPACT_LIST;
+            case 4:
+                return MenuOption.VERBOSE_LIST;
+            case 5:
+                return MenuOption.Exit;
             default:
                 return null;
         }
