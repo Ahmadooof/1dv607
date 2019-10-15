@@ -91,6 +91,10 @@ public class View implements IView {
         System.out.println("File is not found, please register a member to generate the file.");
     }
 
+    /**
+     * this method is the start of the program.
+     * @throws IOException
+     */
     public void userRequest() throws IOException {
         Member member = new Member();
         Boat boat = new Boat();

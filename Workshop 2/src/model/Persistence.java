@@ -22,6 +22,14 @@ public class Persistence implements IPersistence {
         om = new ObjectMapper();
     }
 
+    /**
+     * this method generates read each character for personal number
+     * and adding 1 to each number to make it unique.
+     * (we assume that personal number is unique id :) )
+     *
+     * @param personalNumber
+     * @return
+     */
     @Override
     public String generateID(int personalNumber) {
         String numberString = Integer.toString(personalNumber);
@@ -39,6 +47,15 @@ public class Persistence implements IPersistence {
         return unique;
     }
 
+
+    /**
+     * this method generate unique id by counting boats for specific member
+     * adding +1 after counting boats.
+     *
+     * @param memberID
+     * @return 5 if member has 4 boats.
+     * @throws IOException
+     */
     @Override
     public int generateIDForBoat(String memberID) throws IOException {
         memberListObject = loadMembers();
@@ -50,12 +67,21 @@ public class Persistence implements IPersistence {
         return -1;        // there are no members yet
     }
 
+    /**
+     * @return return an object of array list of members.
+     * @throws IOException
+     */
     @Override
     public MemberList loadMembers() throws IOException {
         memberListObject = om.readerFor(MemberList.class).readValue(new File("members.json"));
         return memberListObject;
     }
 
+    /**
+     * @param newMember
+     * @return
+     * @throws IOException
+     */
     @Override
     public boolean saveMember(Member newMember) throws IOException {
         if (file.length() == 0) {
@@ -68,6 +94,12 @@ public class Persistence implements IPersistence {
         return true;
     }
 
+    /**
+     * @param searchForId
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @Override
     public boolean isMemberExist(String searchForId) throws IOException, ParseException {
         memberListObject = loadMembers();
@@ -81,6 +113,11 @@ public class Persistence implements IPersistence {
         return false;
     }
 
+    /**
+     * @param id
+     * @return true if we found the member which we need to remove by id
+     * @throws IOException
+     */
     public boolean removeMemberById(String id) throws IOException {
         memberListObject = loadMembers();
         ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
@@ -95,6 +132,11 @@ public class Persistence implements IPersistence {
         return false;
     }
 
+    /**
+     * @param id
+     * @return
+     * @throws IOException
+     */
     @Override
     public Member retrieveMemberById(String id) throws IOException {
         memberListObject = loadMembers();
@@ -107,7 +149,11 @@ public class Persistence implements IPersistence {
         return null;
     }
 
-
+    /**
+     * @param updateMember
+     * @return
+     * @throws IOException
+     */
     @Override
     public boolean updateMember(Member updateMember) throws IOException {
         memberListObject.getMemberList().add(updateMember);
@@ -115,6 +161,12 @@ public class Persistence implements IPersistence {
         return true;
     }
 
+    /**
+     * @param memberFound
+     * @param newBoat
+     * @return
+     * @throws IOException
+     */
     public boolean registerBoat(Member memberFound, Boat newBoat) throws IOException {
         memberFound.getBoatList().add(newBoat);
         memberListObject.setMemberList(loadMembers().getMemberList());
@@ -123,6 +175,11 @@ public class Persistence implements IPersistence {
         return true;
     }
 
+    /**
+     * @param boatID
+     * @return
+     * @throws IOException
+     */
     @Override
     public boolean isBoatExist(int boatID) throws IOException {
         memberListObject = loadMembers();
@@ -137,6 +194,10 @@ public class Persistence implements IPersistence {
         return false;        // there is no boat for this id.
     }
 
+    /**
+     * @param sarchBoatID
+     * @throws IOException
+     */
     @Override
     public void removeBoatById(int sarchBoatID) throws IOException {
         memberListObject = loadMembers();
@@ -152,6 +213,11 @@ public class Persistence implements IPersistence {
         }
     }
 
+    /**
+     * @param updateBoat
+     * @param memberFound
+     * @throws IOException
+     */
     @Override
     public void updateBoat(Boat updateBoat, Member memberFound) throws IOException {
         memberListObject = loadMembers();
