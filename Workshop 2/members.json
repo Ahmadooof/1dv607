@@ -1,17 +1,13 @@
 {
   "memberList" : [ {
-    "name" : "ahmad",
-    "personalNumber" : 34,
-    "id" : "45",
-    "boatList" : [ {
-      "type" : "Kayak",
-      "length" : 45,
-      "id" : 1
-    } ]
+    "name" : "asd",
+    "personalNumber" : 324,
+    "id" : "435",
+    "boatList" : [ ]
   }, {
-    "name" : "ooo",
-    "personalNumber" : 4554,
-    "id" : "5665",
+    "name" : "omar",
+    "personalNumber" : 5555,
+    "id" : "6666",
     "boatList" : [ ]
   } ]
 }

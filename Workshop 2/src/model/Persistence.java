@@ -3,23 +3,23 @@ package model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class Persistence implements IPersistence {
 
-    List<Member> memberList;
-    MemberList memberListObject;
-    ObjectMapper om;
-    File file;
+    private MemberList memberListObject;
+    private ObjectMapper om;
+    private File file;
 
     public Persistence() throws IOException {
         file = new File("members.json");
-        memberList = new ArrayList<Member>();
-        memberListObject = new MemberList(memberList);
+        memberListObject = new MemberList();
         om = new ObjectMapper();
+        if (file.length() != 0) {
+            memberListObject = om.readerFor(MemberList.class).readValue(new File("members.json"));
+        }
     }
 
     /**
@@ -57,7 +57,7 @@ public class Persistence implements IPersistence {
      */
     @Override
     public int generateIDForBoat(String memberID) throws IOException {
-        memberListObject = loadMembers();
+//        memberListObject = loadMembers();
         ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
         for (int i = 0; i < currentMembers.size(); i++) {
             if (currentMembers.get(i).getId().equals(memberID))
@@ -66,31 +66,16 @@ public class Persistence implements IPersistence {
         return -1;        // there are no members yet
     }
 
-    /**
-     * @return return an object of array list of members.
-     * @throws IOException
-     */
-    @Override
-    public MemberList loadMembers() throws IOException {
-        memberListObject = om.readerFor(MemberList.class).readValue(new File("members.json"));
-        return memberListObject;
-    }
 
     /**
      * @param newMember
-     * @return
      * @throws IOException
      */
     @Override
-    public boolean saveMember(Member newMember) throws IOException {
-        if (file.length() == 0) {
-            memberList.add(newMember);
-        } else {
-            memberListObject.setMemberList(loadMembers().getMemberList());
-            memberListObject.getMemberList().add(newMember);
-        }
-        om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
-        return true;
+    public void saveMember(Member newMember) throws IOException {
+        this.memberListObject.getMemberList().add(newMember);
+
+//        om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
     }
 
     /**
@@ -101,7 +86,7 @@ public class Persistence implements IPersistence {
      */
     @Override
     public boolean isMemberExist(String searchForId) throws IOException, ParseException {
-        memberListObject = loadMembers();
+//        memberListObject = loadMembers();
         ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
         System.out.println(currentMembers.size());
         for (int i = 0; i < memberListObject.getMemberList().size(); i++) {
@@ -112,23 +97,14 @@ public class Persistence implements IPersistence {
         return false;
     }
 
+
     /**
-     * @param id
-     * @return true if we found the member which we need to remove by id
+     * @param memberFound
+     * @return
      * @throws IOException
      */
-    public boolean removeMemberById(String id) throws IOException {
-        memberListObject = loadMembers();
-        ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
-        for (int i = 0; i < currentMembers.size(); i++) {
-            if (currentMembers.get(i).getId().equals(id)) {
-                currentMembers.remove(i);
-                memberListObject.setMemberList(currentMembers);
-                om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
-                return true;
-            }
-        }
-        return false;
+    public void removeMember(Member memberFound) throws IOException {
+        this.memberListObject.getMemberList().remove(memberFound);
     }
 
     /**
@@ -138,26 +114,12 @@ public class Persistence implements IPersistence {
      */
     @Override
     public Member retrieveMemberById(String id) throws IOException {
-        memberListObject = loadMembers();
-        ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
-        for (int i = 0; i < currentMembers.size(); i++) {
-            if (currentMembers.get(i).getId().equals(id)) {
-                return currentMembers.get(i);
+        for (int i = 0; i < memberListObject.getMemberList().size(); i++) {
+            if (memberListObject.getMemberList().get(i).getId().equals(id)) {
+                return memberListObject.getMemberList().get(i);
             }
         }
         return null;
-    }
-
-    /**
-     * @param updateMember
-     * @return
-     * @throws IOException
-     */
-    @Override
-    public boolean updateMember(Member updateMember) throws IOException {
-        memberListObject.getMemberList().add(updateMember);
-        om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
-        return true;
     }
 
     /**
@@ -168,7 +130,7 @@ public class Persistence implements IPersistence {
      */
     public boolean registerBoat(Member memberFound, Boat newBoat) throws IOException {
         memberFound.getBoatList().add(newBoat);
-        memberListObject.setMemberList(loadMembers().getMemberList());
+//        memberListObject.setMemberList(loadMembers().getMemberList());
         memberListObject.getMemberList().add(memberFound);
         om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
         return true;
@@ -181,7 +143,7 @@ public class Persistence implements IPersistence {
      */
     @Override
     public boolean isBoatExist(int boatID) throws IOException {
-        memberListObject = loadMembers();
+//        memberListObject = loadMembers();
         ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
         for (int i = 0; i < currentMembers.size(); i++) {
             for (int j = 0; j < currentMembers.get(i).getBoatList().size(); j++) {
@@ -199,7 +161,7 @@ public class Persistence implements IPersistence {
      */
     @Override
     public void removeBoatById(int searchBoatID) throws IOException {
-        memberListObject = loadMembers();
+//        memberListObject = loadMembers();
         ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
         for (int i = 0; i < currentMembers.size(); i++) {
             for (int j = 0; j < currentMembers.get(i).getBoatList().size(); j++) {
@@ -219,7 +181,7 @@ public class Persistence implements IPersistence {
      */
     @Override
     public void updateBoat(Boat updateBoat, Member memberFound) throws IOException {
-        memberListObject = loadMembers();
+//        memberListObject = loadMembers();
         ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
         for (int i = 0; i < currentMembers.size(); i++) {
             if (currentMembers.get(i).getId().equals(memberFound.getId())) {

@@ -9,7 +9,7 @@ public interface IView {
 
     String userInputString();
 
-    int userInputNumber();
+    Integer userInputNumber();
 
     void printWelcome();
 
