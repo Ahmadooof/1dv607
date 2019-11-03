@@ -7,11 +7,11 @@ import java.util.List;
 
 public class MemberList {
 
-    public MemberList(){}
+    MemberList(){}
 
-    public List<Member> memberList = new ArrayList<Member>();
+    private List<Member> memberList = new ArrayList<Member>();
 
-    public List<Member> getMemberList() {
+    List<Member> getMemberList() {
         return memberList;
     }
 

@@ -97,8 +97,6 @@ public class View implements IView {
      * @throws IOException
      */
     public void userRequest() throws IOException {
-        String memberId;
-        int boatId;
         Member memberFound;
         switch (menuOption()) {
             case MEMBERSHIP_ISSUE:

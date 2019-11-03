@@ -64,8 +64,6 @@ public class Persistence implements IPersistence {
     @Override
     public void saveMember(Member newMember) throws IOException {
         this.memberListObject.getMemberList().add(newMember);
-
-//        om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
     }
 
     /**
