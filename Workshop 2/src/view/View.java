@@ -202,7 +202,6 @@ public class View implements IView {
 //                    System.out.println("File is not found, please register a member to generate the file.");
 //                }
                 Iterator<Member> iterateMember = this.storage.iterateMembers();
-                Iterator<Boat> iterateBoat = this.storage.iterateBoats();
                 System.out.format(
                         "%20s%20s%20s%20s%20s%20s%20s\n"
                         , "Name", "Personal Number", "Member ID", "Number of Boats"
@@ -210,7 +209,7 @@ public class View implements IView {
                 while (iterateMember.hasNext()) {
                     int countNumberBoats = 1;
                     Member member = iterateMember.next();
-//                    iterateBoat = member.getBoatList().iterator();
+                    Iterator<Boat> iterateBoat = this.storage.iterateBoats(member);
                     System.out.format("%20s%20s%20s%20s"
                             , member.getName()
                             , member.getPersonalNumber()
@@ -239,6 +238,7 @@ public class View implements IView {
                         }
                     }
                 }
+                System.out.println("Press any key to restart, Number 5 To Exit.");
                 break;
             case Exit:
                 System.out.println("Thanks for using our service");

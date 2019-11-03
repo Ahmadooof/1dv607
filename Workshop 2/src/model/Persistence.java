@@ -123,12 +123,8 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public Iterator<Boat> iterateBoats() {
-        Iterator<Member> memberIter = iterateMembers();
-        while (memberIter.hasNext()) {
-            return memberIter.next().getBoatList().iterator();
-        }
-        return null;
+    public Iterator<Boat> iterateBoats(Member member) {
+        return member.getBoatList().iterator();
     }
 
     @Override

@@ -21,7 +21,7 @@ public interface IPersistence {
 
     Iterator<Member> iterateMembers();
 
-    Iterator<Boat> iterateBoats();
+    Iterator<Boat> iterateBoats(Member member);
 
     void writeToFile();
 }
