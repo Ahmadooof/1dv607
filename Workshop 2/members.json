@@ -3,11 +3,28 @@
     "name" : "asd",
     "personalNumber" : 324,
     "id" : "435",
-    "boatList" : [ ]
+    "boatList" : [ {
+      "type" : "Kayak",
+      "length" : 33,
+      "id" : 1
+    }, {
+      "type" : "Canoe",
+      "length" : 44,
+      "id" : 2
+    } ]
   }, {
     "name" : "omar",
     "personalNumber" : 5555,
     "id" : "6666",
+    "boatList" : [ {
+      "type" : "Canoe",
+      "length" : 22,
+      "id" : 1
+    } ]
+  }, {
+    "name" : "ererer",
+    "personalNumber" : 3434,
+    "id" : "4545",
     "boatList" : [ ]
   } ]
 }

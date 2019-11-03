@@ -1,11 +1,10 @@
 package model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Persistence implements IPersistence {
 
@@ -46,26 +45,17 @@ public class Persistence implements IPersistence {
         return uniqueId.toString();
     }
 
-
     /**
-     * this method generate unique id by counting boats for specific member
-     * adding +1 after counting boats.
+     * this method generates boat id by counting the number of boats which member has.
      *
-     * @param memberID
-     * @return 5 if member has 4 boats.
+     * @param memberFound
+     * @return
      * @throws IOException
      */
     @Override
-    public int generateIDForBoat(String memberID) throws IOException {
-//        memberListObject = loadMembers();
-        ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
-        for (int i = 0; i < currentMembers.size(); i++) {
-            if (currentMembers.get(i).getId().equals(memberID))
-                return currentMembers.get(i).getBoatList().size() + 1;
-        }
-        return -1;        // there are no members yet
+    public int generateIDForBoat(Member memberFound) throws IOException {
+        return memberFound.getBoatList().size() + 1;
     }
-
 
     /**
      * @param newMember
@@ -77,26 +67,6 @@ public class Persistence implements IPersistence {
 
 //        om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
     }
-
-    /**
-     * @param searchForId
-     * @return
-     * @throws IOException
-     * @throws ParseException
-     */
-    @Override
-    public boolean isMemberExist(String searchForId) throws IOException, ParseException {
-//        memberListObject = loadMembers();
-        ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
-        System.out.println(currentMembers.size());
-        for (int i = 0; i < memberListObject.getMemberList().size(); i++) {
-            if (currentMembers.get(i).getId().equals(searchForId)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * @param memberFound
@@ -125,70 +95,48 @@ public class Persistence implements IPersistence {
     /**
      * @param memberFound
      * @param newBoat
-     * @return
      * @throws IOException
      */
-    public boolean registerBoat(Member memberFound, Boat newBoat) throws IOException {
+    public void registerBoat(Member memberFound, Boat newBoat) throws IOException {
         memberFound.getBoatList().add(newBoat);
-//        memberListObject.setMemberList(loadMembers().getMemberList());
-        memberListObject.getMemberList().add(memberFound);
-        om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
-        return true;
     }
 
     /**
-     * @param boatID
+     * @param boatId
      * @return
      * @throws IOException
      */
     @Override
-    public boolean isBoatExist(int boatID) throws IOException {
-//        memberListObject = loadMembers();
-        ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
-        for (int i = 0; i < currentMembers.size(); i++) {
-            for (int j = 0; j < currentMembers.get(i).getBoatList().size(); j++) {
-                if (currentMembers.get(i).getBoatList().get(j).getId() == (boatID)) {
-                    return true;
-                }
+    public boolean removeBoatById(int boatId, Member memberFound) throws IOException {
+        for (int j = 0; j < memberFound.getBoatList().size(); j++) {
+            if (memberFound.getBoatList().get(j).getId() == boatId) {
+                memberFound.getBoatList().remove(j);
+                return true;
             }
         }
-        return false;        // there is no boat for this id.
+        return false;
     }
 
-    /**
-     * @param searchBoatID
-     * @throws IOException
-     */
     @Override
-    public void removeBoatById(int searchBoatID) throws IOException {
-//        memberListObject = loadMembers();
-        ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
-        for (int i = 0; i < currentMembers.size(); i++) {
-            for (int j = 0; j < currentMembers.get(i).getBoatList().size(); j++) {
-                if (currentMembers.get(i).getBoatList().get(j).getId() == searchBoatID) {
-                    currentMembers.get(i).getBoatList().remove(j);
-                    memberListObject.setMemberList(currentMembers);
-                    om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
-                }
-            }
+    public Iterator<Member> iterateMembers() {
+        return this.memberListObject.getMemberList().iterator();
+    }
+
+    @Override
+    public Iterator<Boat> iterateBoats() {
+        Iterator<Member> memberIter = iterateMembers();
+        while (memberIter.hasNext()) {
+            return memberIter.next().getBoatList().iterator();
         }
+        return null;
     }
 
-    /**
-     * @param updateBoat
-     * @param memberFound
-     * @throws IOException
-     */
     @Override
-    public void updateBoat(Boat updateBoat, Member memberFound) throws IOException {
-//        memberListObject = loadMembers();
-        ArrayList<Member> currentMembers = (ArrayList<Member>) memberListObject.getMemberList();
-        for (int i = 0; i < currentMembers.size(); i++) {
-            if (currentMembers.get(i).getId().equals(memberFound.getId())) {
-                currentMembers.get(i).getBoatList().add(updateBoat);
-                memberListObject.setMemberList(currentMembers);
-                om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
-            }
+    public void writeToFile() {
+        try {
+            om.writerWithDefaultPrettyPrinter().writeValue(file, memberListObject);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
