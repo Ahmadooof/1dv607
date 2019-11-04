@@ -173,14 +173,7 @@ public class View implements IView {
                 }
                 break;
             case COMPACT_LIST:
-//                try {
-//                    this.storage.loadMembers().getMemberList();
-//                } catch (Exception e) {
-//                    System.out.println("File is not found, please register a member to generate the file.");
-//                }
                 Iterator<Member> iter = this.storage.iterateMembers();
-
-//                System.out.println("File is not found, please register a member to generate the file.");
 
                 System.out.format("%-15s%-15s%-15s\n"
                         , "Name", "MemberId", "Number of Boats");
@@ -194,11 +187,6 @@ public class View implements IView {
                 System.out.println("Press any key to restart, Number 5 To Exit.");
                 break;
             case VERBOSE_LIST:
-//                try {
-//                    this.storage.loadMembers().getMemberList();
-//                } catch (Exception e) {
-//                    System.out.println("File is not found, please register a member to generate the file.");
-//                }
                 Iterator<Member> iterateMember = this.storage.iterateMembers();
                 System.out.format(
                         "%20s%20s%20s%20s%20s%20s%20s\n"
@@ -244,47 +232,43 @@ public class View implements IView {
                 System.exit(0);
                 break;
         }
-
     }
 
     private void registerBoat(Member memberFound) throws IOException {
-        Boat a_boat = new Boat();
         AskForBoatType();
         printBoatType();
+        String boatType = "";
+        int boatLength;
         switch (boatTypeOption()) {
             case SAILBOAT:
-                a_boat.setType("Sailboat");
+                boatType = "SAILBOAT";
                 break;
             case MOTORSAILER:
-                a_boat.setType("Motorsailer");
+                boatType = "MOTORSAILER";
                 break;
             case CANOE:
-                a_boat.setType("Canoe");
+                boatType = "CANOE";
                 break;
             case KAYAK:
-                a_boat.setType("Kayak");
+                boatType = "KAYAK";
                 break;
             case OTHER:
                 System.out.println("Please enter your boat type: ");
-                a_boat.setType(userInputString());
+                boatType = userInputString();
                 break;
         }
         System.out.println("please enter boat length");
-        a_boat.setLength(userInputNumber());
-        a_boat.setId(this.storage.generateIDForBoat(memberFound));
-        this.storage.registerBoat(memberFound, a_boat);
+        boatLength = userInputNumber();
+        this.storage.registerBoat(boatType, boatLength, memberFound);
     }
 
     private void updateMember(Member memberFound) throws IOException {
-        Member a_member = new Member();
         System.out.println("Enter new name of the member:");
-        a_member.setName(userInputString());
+        String memberName = userInputString();
         System.out.println("Enter new personal number of the member:");
-        a_member.setPersonalNumber(userInputNumber());
-        a_member.setId(this.storage.generateID(a_member.getPersonalNumber()));
-        a_member.setBoatList(memberFound.getBoatList());
+        int personalNumber = userInputNumber();
         this.storage.removeMember(memberFound);
-        this.storage.saveMember(a_member);
+        this.storage.saveMember(memberName, personalNumber, memberFound);
     }
 
     private Member readMember() throws IOException {
@@ -300,13 +284,11 @@ public class View implements IView {
     }
 
     private void registerMember() throws IOException {
-        Member a_member = new Member();
         askForName();
-        a_member.setName(userInputString());
+        String name = userInputString();
         askForPersonalNumber();
-        a_member.setPersonalNumber(userInputNumber());
-        a_member.setId(this.storage.generateID(a_member.getPersonalNumber()));
-        this.storage.saveMember(a_member);
+        int personalNumber = userInputNumber();
+        this.storage.saveMember(name, personalNumber);
     }
 
     @Override
@@ -319,7 +301,7 @@ public class View implements IView {
         return new Scanner(System.in).nextInt();
     }
 
-    public MenuOption boatTypeOption() {
+    private MenuOption boatTypeOption() {
         try {
             switch (userInputNumber()) {
                 case 1:
@@ -389,7 +371,7 @@ public class View implements IView {
         }
     }
 
-    public MenuOption boatOption() {
+    private MenuOption boatOption() {
         try {
             switch (userInputNumber()) {
                 case 1:

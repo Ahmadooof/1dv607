@@ -58,12 +58,27 @@ public class Persistence implements IPersistence {
     }
 
     /**
-     * @param newMember
+     * @param name
+     * @param personalNumber
      * @throws IOException
      */
     @Override
-    public void saveMember(Member newMember) throws IOException {
-        this.memberListObject.getMemberList().add(newMember);
+    public void saveMember(String name, int personalNumber) throws IOException {
+        Member a_member = new Member();
+        a_member.setName(name);
+        a_member.setPersonalNumber(personalNumber);
+        a_member.setId(generateID(a_member.getPersonalNumber()));
+        this.memberListObject.getMemberList().add(a_member);
+    }
+
+    @Override
+    public void saveMember(String name, int personalNumber, Member memberFound) throws IOException {
+        Member a_member = new Member();
+        a_member.setName(name);
+        a_member.setPersonalNumber(personalNumber);
+        a_member.setId(generateID(a_member.getPersonalNumber()));
+        a_member.setBoatList(memberFound.getBoatList());
+        this.memberListObject.getMemberList().add(a_member);
     }
 
     /**
@@ -91,12 +106,17 @@ public class Persistence implements IPersistence {
     }
 
     /**
+     * @param boatType
+     * @param boatLength
      * @param memberFound
-     * @param newBoat
      * @throws IOException
      */
-    public void registerBoat(Member memberFound, Boat newBoat) throws IOException {
-        memberFound.getBoatList().add(newBoat);
+    public void registerBoat(String boatType, int boatLength, Member memberFound) throws IOException {
+        Boat a_boat = new Boat();
+        a_boat.setLength(boatLength);
+        a_boat.setType(boatType);
+        a_boat.setId(generateIDForBoat(memberFound));
+        memberFound.getBoatList().add(a_boat);
     }
 
     /**

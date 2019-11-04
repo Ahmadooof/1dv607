@@ -1,22 +1,18 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberList {
+class MemberList {
 
-    MemberList(){}
+    private List<Member> memberList;
 
-    private List<Member> memberList = new ArrayList<Member>();
-
-    List<Member> getMemberList() {
-        return memberList;
+    MemberList() {
+        memberList = new ArrayList<Member>();
     }
 
-    public void setMemberList(List<Member> memberList) {
-        this.memberList = memberList;
+    public List<Member> getMemberList() {
+        return memberList;
     }
 
 }

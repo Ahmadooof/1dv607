@@ -1,30 +1,45 @@
 {
   "memberList" : [ {
-    "name" : "asd",
-    "personalNumber" : 324,
-    "id" : "435",
+    "name" : "wer",
+    "personalNumber" : 342,
+    "id" : "453",
     "boatList" : [ {
-      "type" : "Kayak",
-      "length" : 33,
+      "type" : "CANOE",
+      "length" : 32,
       "id" : 1
     }, {
-      "type" : "Canoe",
-      "length" : 44,
+      "type" : "KAYAK",
+      "length" : 43,
       "id" : 2
     } ]
   }, {
-    "name" : "omar",
-    "personalNumber" : 5555,
-    "id" : "6666",
+    "name" : "eeeee",
+    "personalNumber" : 33,
+    "id" : "44",
+    "boatList" : [ ]
+  }, {
+    "name" : "test",
+    "personalNumber" : 33,
+    "id" : "44",
+    "boatList" : [ ]
+  }, {
+    "name" : "testagain",
+    "personalNumber" : 33,
+    "id" : "44",
+    "boatList" : [ ]
+  }, {
+    "name" : "ahmad",
+    "personalNumber" : 33,
+    "id" : "44",
+    "boatList" : [ ]
+  }, {
+    "name" : "kiki",
+    "personalNumber" : 45,
+    "id" : "56",
     "boatList" : [ {
       "type" : "Canoe",
-      "length" : 22,
+      "length" : 33,
       "id" : 1
     } ]
-  }, {
-    "name" : "ererer",
-    "personalNumber" : 3434,
-    "id" : "4545",
-    "boatList" : [ ]
   } ]
 }
