@@ -8,7 +8,7 @@ class MemberList {
     private List<Member> memberList;
 
     MemberList() {
-        memberList = new ArrayList<Member>();
+        memberList = new ArrayList<>();
     }
 
     public List<Member> getMemberList() {

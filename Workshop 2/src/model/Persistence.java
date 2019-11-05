@@ -111,7 +111,7 @@ public class Persistence implements IPersistence {
      * @param memberFound
      * @throws IOException
      */
-    public void registerBoat(String boatType, int boatLength, Member memberFound) throws IOException {
+    public void registerBoat(Boat.Type boatType, int boatLength, Member memberFound) throws IOException {
         Boat a_boat = new Boat();
         a_boat.setLength(boatLength);
         a_boat.setType(boatType);

@@ -2,11 +2,11 @@ package model;
 
 public class Boat {
 
-    public Boat() {}
-
-    private String type;
+    private Type type;
     private int length;
     private int id;
+    public Boat() {
+    }
 
     public int getLength() {
         return length;
@@ -24,12 +24,20 @@ public class Boat {
         this.id = id;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
+    }
+
+    public enum Type {
+        SAILBOAT,
+        MOTORSAILER,
+        KAYAK,
+        CANOE,
+        OTHER,
     }
 }
 

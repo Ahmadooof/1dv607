@@ -17,7 +17,7 @@ public interface IPersistence {
 
     void removeMember(Member memberFound) throws IOException;
 
-    void registerBoat(String boatType, int boatLength, Member memberFound) throws IOException;
+    void registerBoat(Boat.Type boatType, int boatLength, Member memberFound) throws IOException;
 
     boolean removeBoatById(int boatID, Member memberFound) throws IOException;
 

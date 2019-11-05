@@ -97,80 +97,12 @@ public class View implements IView {
      * @throws IOException
      */
     public void userRequest() throws IOException {
-        Member memberFound;
         switch (menuOption()) {
             case MEMBERSHIP_ISSUE:
-                printMembershipIssue();
-                switch (membershipOption()) {
-                    case REGISTER_MEMBER:
-                        registerMember();
-                        System.out.println("Press any key to restart, Number 5 To Exit.");
-                        break;
-                    case READ_MEMBER:
-                        memberFound = readMember();
-                        if (memberFound != null) {
-                            System.out.println(
-                                    "Name: " + memberFound.getName()
-                                            + "\nId:" + memberFound.getId()
-                                            + "\nPersonal Number: "
-                                            + memberFound.getPersonalNumber()
-                            );
-                        }
-                        System.out.println("Press any key to restart, Number 5 To Exit.");
-                        break;
-                    case UPDATE_MEMBER:
-                        memberFound = readMember();
-                        if (memberFound != null) {
-                            updateMember(memberFound);
-                        }
-                        System.out.println("Press any key to restart, Number 5 To Exit.");
-                        break;
-                    case DELETE_MEMBER:
-                        memberFound = readMember();
-                        if (memberFound != null) {
-                            this.storage.removeMember(memberFound);
-                        }
-                        System.out.println("Press any key to restart, Number 5 To Exit.");
-                        break;
-                }
+                memberIssue();
                 break;
             case BOAT_ISSUE:
-                printBoatMenu();
-                switch (boatOption()) {
-                    case REGISTER_BOAT:
-                        memberFound = readMember();
-                        if (memberFound != null) {
-                            registerBoat(memberFound);
-                            System.out.println("Boat has been registered");
-                        }
-                        System.out.println("Press any key to restart, Number 5 To Exit.");
-                        break;
-                    case UPDATE_BOAT:
-                        memberFound = readMember();
-                        if (memberFound != null) {
-                            System.out.println("Please Enter boat ID:");
-                            if (this.storage.removeBoatById(userInputNumber(), memberFound)) {
-                                registerBoat(memberFound);
-                                System.out.println("Boat has been updated");
-                            } else {
-                                System.out.println("Boat is not found");
-                            }
-                        }
-                        System.out.println("Press any key to restart, Number 5 To Exit.");
-                        break;
-                    case DELETE_BOAT:
-                        memberFound = readMember();
-                        if (memberFound != null) {
-                            System.out.println("Please Enter boat ID:");
-                            if (this.storage.removeBoatById(userInputNumber(), memberFound)) {
-                                System.out.println("Boat has been removed");
-                            } else {
-                                System.out.println("Boat is not found");
-                            }
-                        }
-                        System.out.println("Press any key to restart, Number 5 To Exit.");
-                        break;
-                }
+                boatIssue();
                 break;
             case COMPACT_LIST:
                 Iterator<Member> iter = this.storage.iterateMembers();
@@ -234,31 +166,98 @@ public class View implements IView {
         }
     }
 
+    private void boatIssue() throws IOException {
+        printBoatMenu();
+        switch (boatOption()) {
+            case REGISTER_BOAT:
+                Member member = readMember();
+                if (member != null) {
+                    registerBoat(member);
+                    System.out.println("Boat has been registered");
+                }
+                System.out.println("Press any key to restart, Number 5 To Exit.");
+                break;
+            case UPDATE_BOAT:
+                Member memberFound = readMember();
+                if (memberFound != null) {
+                    System.out.println("Please Enter boat ID:");
+                    if (this.storage.removeBoatById(userInputNumber(), memberFound)) {
+                        registerBoat(memberFound);
+                        System.out.println("Boat has been updated");
+                    } else {
+                        System.out.println("Boat is not found");
+                    }
+                }
+                System.out.println("Press any key to restart, Number 5 To Exit.");
+                break;
+            case DELETE_BOAT:
+                Member memberDelete = readMember();
+                if (memberDelete != null) {
+                    System.out.println("Please Enter boat ID:");
+                    if (this.storage.removeBoatById(userInputNumber(), memberDelete)) {
+                        System.out.println("Boat has been removed");
+                    } else {
+                        System.out.println("Boat is not found");
+                    }
+                }
+                System.out.println("Press any key to restart, Number 5 To Exit.");
+        }
+    }
+
+    private void memberIssue() throws IOException {
+        printMembershipIssue();
+        switch (membershipOption()) {
+            case REGISTER_MEMBER:
+                registerMember();
+                System.out.println("Press any key to restart, Number 5 To Exit.");
+                break;
+            case READ_MEMBER:
+                memberRead();
+                break;
+            case UPDATE_MEMBER:
+                memberUpdate();
+                break;
+            case DELETE_MEMBER:
+                memberDelete();
+                break;
+        }
+    }
+
+    private void memberRead() throws IOException {
+        Member memberFound = readMember();
+        if (memberFound != null) {
+            System.out.println(
+                    "Name: " + memberFound.getName()
+                            + "\nId:" + memberFound.getId()
+                            + "\nPersonal Number: "
+                            + memberFound.getPersonalNumber()
+            );
+        }
+        System.out.println("Press any key to restart, Number 5 To Exit.");
+    }
+
+    private void memberDelete() throws IOException {
+        Member member = readMember();
+        if (member != null) {
+            this.storage.removeMember(member);
+        }
+        System.out.println("Press any key to restart, Number 5 To Exit.");
+    }
+
+    private void memberUpdate() throws IOException {
+        Member member = readMember();
+        if (member != null) {
+            updateMember(member);
+        }
+        System.out.println("Press any key to restart, Number 5 To Exit.");
+    }
+
     private void registerBoat(Member memberFound) throws IOException {
         AskForBoatType();
         printBoatType();
-        String boatType = "";
-        int boatLength;
-        switch (boatTypeOption()) {
-            case SAILBOAT:
-                boatType = "SAILBOAT";
-                break;
-            case MOTORSAILER:
-                boatType = "MOTORSAILER";
-                break;
-            case CANOE:
-                boatType = "CANOE";
-                break;
-            case KAYAK:
-                boatType = "KAYAK";
-                break;
-            case OTHER:
-                System.out.println("Please enter your boat type: ");
-                boatType = userInputString();
-                break;
-        }
+        Boat.Type boatType = boatTypeOption();
         System.out.println("please enter boat length");
-        boatLength = userInputNumber();
+        int boatLength = userInputNumber();
         this.storage.registerBoat(boatType, boatLength, memberFound);
     }
 
@@ -301,19 +300,19 @@ public class View implements IView {
         return new Scanner(System.in).nextInt();
     }
 
-    private MenuOption boatTypeOption() {
+    private Boat.Type boatTypeOption() {
         try {
             switch (userInputNumber()) {
                 case 1:
-                    return MenuOption.SAILBOAT;
+                    return Boat.Type.SAILBOAT;
                 case 2:
-                    return MenuOption.MOTORSAILER;
+                    return Boat.Type.MOTORSAILER;
                 case 3:
-                    return MenuOption.KAYAK;
+                    return Boat.Type.KAYAK;
                 case 4:
-                    return MenuOption.CANOE;
+                    return Boat.Type.CANOE;
                 case 5:
-                    return MenuOption.OTHER;
+                    return Boat.Type.OTHER;
                 default:
                     System.out.println("please choose a boat by press number from 1 to 5");
                     return boatTypeOption();

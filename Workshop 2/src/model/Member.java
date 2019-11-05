@@ -11,7 +11,7 @@ public class Member {
     private List<Boat> boatList;
 
     public Member() {
-        this.boatList = new ArrayList<Boat>();
+        this.boatList = new ArrayList<>();
     }
 
     public List<Boat> getBoatList() {
